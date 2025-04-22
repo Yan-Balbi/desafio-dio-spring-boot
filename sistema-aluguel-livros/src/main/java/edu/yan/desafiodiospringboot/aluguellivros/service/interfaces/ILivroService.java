@@ -21,7 +21,7 @@ public interface ILivroService {
 	
 	void atualizar(Livro livro);
 	
-	void deletarLivroComExemplares(Long id);
+	void deletarLivroComExemplares(String isbn);
 	
 	Optional<Livro> buscarLivroPorIsbn(String isbn);
 	

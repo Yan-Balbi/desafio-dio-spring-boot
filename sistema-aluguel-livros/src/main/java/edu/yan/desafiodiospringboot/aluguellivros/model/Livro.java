@@ -26,7 +26,7 @@ public class Livro {
 	private String categoria;
 	@Column(length = 50, nullable = true)
 	private Double score;
-    @OneToMany(mappedBy = "livro", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "livro", cascade = CascadeType.ALL)
     private List<Exemplar> exemplares = new ArrayList<>();
     
 

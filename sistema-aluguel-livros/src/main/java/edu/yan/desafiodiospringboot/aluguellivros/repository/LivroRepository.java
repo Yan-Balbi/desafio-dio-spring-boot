@@ -12,4 +12,6 @@ public interface LivroRepository extends CrudRepository<Livro, Long>{
 
 	Optional<Livro> findByIsbn(String isbn);
 
+	void deleteByIsbn(String isbn);
+
 }

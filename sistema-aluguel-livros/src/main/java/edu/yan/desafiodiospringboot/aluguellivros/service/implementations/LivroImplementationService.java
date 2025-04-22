@@ -10,6 +10,7 @@ import edu.yan.desafiodiospringboot.aluguellivros.model.Exemplar;
 import edu.yan.desafiodiospringboot.aluguellivros.model.Livro;
 import edu.yan.desafiodiospringboot.aluguellivros.repository.LivroRepository;
 import edu.yan.desafiodiospringboot.aluguellivros.service.interfaces.ILivroService;
+import jakarta.transaction.Transactional;
 
 @Service
 public class LivroImplementationService implements ILivroService{
@@ -40,13 +41,18 @@ public class LivroImplementationService implements ILivroService{
 			
 		livroRepository.save(livroBd);
 	}
-
+	
+	@Transactional //Precisa do transactional para fazer remoção em cascade
 	@Override
-	public void deletarLivroComExemplares(Long id) {
+	public void deletarLivroComExemplares(String isbn) {
 		// TODO Auto-generated method stub
-		livroRepository.deleteById(id);
+		livroRepository.deleteByIsbn(isbn);
 	}
 
+	private void buscarExemplaresDeUmLivro() {
+		
+	}
+	
 	@Override
 	public Optional<Livro> buscarLivroPorIsbn(String isbn) {
 		// TODO Auto-generated method stub
