@@ -1,10 +1,16 @@
 package edu.yan.desafiodiospringboot.aluguellivros.service.implementations;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import edu.yan.desafiodiospringboot.aluguellivros.model.Exemplar;
+import edu.yan.desafiodiospringboot.aluguellivros.repository.ExemplarRepository;
 import edu.yan.desafiodiospringboot.aluguellivros.service.interfaces.IExemplarService;
 
 public class ExemplarImplementationService implements IExemplarService{
 
+	@Autowired
+	ExemplarRepository exemplarRepository;
+	
 	@Override
 	public Iterable<Exemplar> buscarPorIsbn(String isbn) {
 		// TODO Auto-generated method stub

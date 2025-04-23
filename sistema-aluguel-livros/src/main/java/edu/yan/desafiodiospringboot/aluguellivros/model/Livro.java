@@ -89,6 +89,10 @@ public class Livro {
         exemplar.setLivro(this);
         exemplares.add(exemplar);
     }
+	
+	public void setExemplares(List<Exemplar> exemplares) {
+		this.exemplares = exemplares;
+	}
 
 	public void setScore(Double score) {
 		this.score = score;
