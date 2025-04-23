@@ -24,8 +24,8 @@ public interface IClienteService {
 
 	Optional<Cliente> buscarPorCpf(String cpf);
 	
-	Optional<List<Cliente>> buscarPorNome(String cpf);
+	Iterable<Cliente> buscarPorNome(String cpf);
 	
-	Optional<List<Cliente>> buscarTodos();
+	Iterable<Cliente> buscarTodos();
 	
 }

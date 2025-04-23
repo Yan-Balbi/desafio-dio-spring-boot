@@ -21,6 +21,10 @@ public class Cliente {
 	private String senha;
 //	private List<Livro> livrosAlugados = new ArrayList<>();
 	
+	public Cliente() {
+		
+	}
+	
 	public Cliente(String cpf, String nomeUsuario, String senha) {
 		this.cpf = cpf;
 		this.nomeUsuario = nomeUsuario;
