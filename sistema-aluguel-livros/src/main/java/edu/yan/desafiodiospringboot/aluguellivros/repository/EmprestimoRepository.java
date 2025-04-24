@@ -30,8 +30,8 @@ public interface EmprestimoRepository extends CrudRepository<Emprestimo, Long> {
 			+ "	COUNT(e) > 0 THEN true "
 			+ "	ELSE false "
 			+ "	END "
-			+ "FROM Emprestimo e WHERE e.cliente.id = :clienteId")
-	boolean clienteJaPossuiEmprestimo(@Param("clienteId") Long clienteId);
+			+ "FROM Emprestimo e WHERE e.cliente.id = :clienteId AND e.dataDevolucaoEfetiva IS NULL")
+	boolean clienteJaPossuiEmprestimoEmAndamento(@Param("clienteId") Long clienteId);
 	
 	@Query("SELECT e FROM Emprestimo e WHERE e.dataDevolucaoEfetiva IS NULL")
 	Iterable<Emprestimo> findEmpestimosConcluidos();

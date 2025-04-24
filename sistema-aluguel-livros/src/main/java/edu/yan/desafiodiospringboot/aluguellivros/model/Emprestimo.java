@@ -23,6 +23,10 @@ public class Emprestimo {
 	private LocalDate dataDevolucaoPrevista;
 	private LocalDate dataDevolucaoEfetiva;
 	
+	public Emprestimo() {
+		
+	}
+	
 	public Emprestimo(Cliente cliente, Exemplar exemplar, LocalDate dataEmprestimo) {
 		this.cliente = cliente;
 		this.exemplar = exemplar;

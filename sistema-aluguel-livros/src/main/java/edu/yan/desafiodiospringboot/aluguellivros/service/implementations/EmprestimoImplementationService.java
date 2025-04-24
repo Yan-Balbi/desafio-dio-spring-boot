@@ -33,9 +33,15 @@ public class EmprestimoImplementationService implements IEmprestimoService{
 	@Autowired
 	EmprestimoRepository emprestimoRepository;
 	
+	/**
+	 * Registra um emprestimo caso haja exemplares de livros disponíveis e caso o cliente não esteja com nenhum livro alugado
+	 * @param Long clienteId
+	 * @param Long livroId
+	 * @return Optional<Emprestimo>
+	 */
 	@Override
 	public Optional<Emprestimo> registrarEmprestimo(Long clienteId, Long livroId) {
-		if(!emprestimoRepository.clienteJaPossuiEmprestimo(clienteId)) {
+		if(!emprestimoRepository.clienteJaPossuiEmprestimoEmAndamento(clienteId)) {
 			Optional<Cliente> cliente = clienteRepository.findById(clienteId);
 			
 			List<Exemplar> exemplares = (List<Exemplar>) livroRepository.buscarExemplaresDeUmLivroPorIsbn(livroId);
@@ -61,12 +67,9 @@ public class EmprestimoImplementationService implements IEmprestimoService{
 		Emprestimo emprestimo = emprestimoRepository.findById(idEmprestimo).orElseThrow(() -> new RuntimeException("Emprestimo não encontrado"));
 		
 		emprestimo.setDataDevolucaoEfetiva(LocalDate.now());
+		emprestimo.getExemplar().setDisponivel(true);
 		
 		emprestimoRepository.save(emprestimo);
-	}
-	
-	private boolean haEmprestimoEmAndamento() {
-		return false;
 	}
 
 	@Override
