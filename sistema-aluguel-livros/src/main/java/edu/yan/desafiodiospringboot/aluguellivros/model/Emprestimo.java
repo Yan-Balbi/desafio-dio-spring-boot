@@ -17,15 +17,15 @@ public class Emprestimo {
 	@ManyToOne
 	private Cliente cliente;
 	@ManyToOne
-	private Livro livro;
+	private Exemplar exemplar;
 	
 	private LocalDate dataEmprestimo;
 	private LocalDate dataDevolucaoPrevista;
 	private LocalDate dataDevolucaoEfetiva;
 	
-	public Emprestimo(Cliente cliente, Livro livro, LocalDate dataEmprestimo) {
+	public Emprestimo(Cliente cliente, Exemplar exemplar, LocalDate dataEmprestimo) {
 		this.cliente = cliente;
-		this.livro = livro;
+		this.exemplar = exemplar;
 		this.dataEmprestimo = dataEmprestimo;
 		this.dataDevolucaoPrevista = dataEmprestimo.plusDays(14);
 	}
@@ -46,12 +46,12 @@ public class Emprestimo {
 		this.cliente = cliente;
 	}
 
-	public Livro getLivro() {
-		return livro;
+	public Exemplar getExemplar() {
+		return exemplar;
 	}
 
-	public void setLivro(Livro livro) {
-		this.livro = livro;
+	public void setExemplar(Exemplar exemplar) {
+		this.exemplar = exemplar;
 	}
 
 	public LocalDate getDataEmprestimo() {

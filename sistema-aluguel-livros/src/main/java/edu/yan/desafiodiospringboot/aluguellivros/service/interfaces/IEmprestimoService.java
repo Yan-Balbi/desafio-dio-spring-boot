@@ -1,9 +1,6 @@
 package edu.yan.desafiodiospringboot.aluguellivros.service.interfaces;
 
-import java.util.List;
 import java.util.Optional;
-
-import org.springframework.stereotype.Service;
 
 import edu.yan.desafiodiospringboot.aluguellivros.model.Cliente;
 import edu.yan.desafiodiospringboot.aluguellivros.model.Emprestimo;
@@ -18,13 +15,15 @@ public interface IEmprestimoService {
 	-Obter emprestimos atrasados: List<Emprestimos>
 	*/
 	
-	void registrarEmprestimo(Cliente cliente, Exemplar exemplar);
+	Optional<Emprestimo> registrarEmprestimo(Long clienteId, Long exemplarId);
+	
+	void concluirEmprestimo(Long idEmprestimo);
 	
 	Iterable<Emprestimo> buscarTodos();
 	
-	Iterable<Emprestimo> buscarPorIbn(String isbn);
+	Optional<Emprestimo> buscarPorIsbn(String isbn);
 	
-	Iterable<Emprestimo> buscarPorCpf(String cpf);
+	Optional<Emprestimo> buscarPorCpf(String cpf);
 	
 	Iterable<Emprestimo> buscarEmprestimosConcluidos();
 	
