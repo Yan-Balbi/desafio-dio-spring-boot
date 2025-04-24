@@ -21,7 +21,7 @@ public interface IEmprestimoService {
 	
 	Iterable<Emprestimo> buscarTodos();
 	
-	Optional<Emprestimo> buscarPorIsbn(String isbn);
+	Iterable<Emprestimo> buscarAtivoPorIsbn(String isbn);
 	
 	Optional<Emprestimo> buscarPorCpf(String cpf);
 	

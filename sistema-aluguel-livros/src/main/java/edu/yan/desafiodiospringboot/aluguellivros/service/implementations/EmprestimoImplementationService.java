@@ -72,26 +72,48 @@ public class EmprestimoImplementationService implements IEmprestimoService{
 		emprestimoRepository.save(emprestimo);
 	}
 
+	/**
+	 * Retorna uma lista de empréstimos cadastrados, concluidos e não concluidos.
+	 * @return {@link Iterable}<Emprestimo>
+	 */
 	@Override
 	public Iterable<Emprestimo> buscarTodos() {
 		return emprestimoRepository.findAll();
 	}
 
+	/**
+	 * Retorna uma lista de empréstimos ativos para um dado livro.
+	 * @param String isbn
+	 * @return {@link Iterable}<Emprestimo>
+	 */
 	@Override
-	public Optional<Emprestimo> buscarPorIsbn(String isbn) {
-		return emprestimoRepository.findByIsbn(isbn);
+	public Iterable<Emprestimo> buscarAtivoPorIsbn(String isbn) {
+		return emprestimoRepository.findAtivoByIsbn(isbn);
 	}
 
+	/**
+	 * Retorna uma lista de empréstimos ativos para um dado cpf.
+	 * @param String cpf
+	 * @return {@link Optional}<Emprestimo>
+	 */
 	@Override
 	public Optional<Emprestimo> buscarPorCpf(String cpf) {
-		return emprestimoRepository.findByCpf(cpf);
+		return emprestimoRepository.findAtivoByCpf(cpf);
 	}
 
+	/**
+	 * Retorna uma lista de empréstimos concluidos.
+	 * @return {@link Optional}<Iterable<Emprestimo>>
+	 */
 	@Override
 	public Iterable<Emprestimo> buscarEmprestimosConcluidos() {
 		return emprestimoRepository.findEmpestimosConcluidos();
 	}
 
+	/**
+	 * Retorna uma lista de empréstimos atrasados.
+	 * @return {@link Optional}<Iterable<Emprestimo>>
+	 */
 	@Override
 	public Iterable<Emprestimo> buscarEmprestimosAtrasados() {
 		return emprestimoRepository.findEmprestimosAtrasados();
