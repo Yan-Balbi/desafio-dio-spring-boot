@@ -3,9 +3,11 @@ package edu.yan.desafiodiospringboot.aluguellivros.service.implementations;
 import java.util.List;
 import java.util.Optional;
 
+import org.bouncycastle.crypto.RuntimeCryptoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.yan.desafiodiospringboot.aluguellivros.handler.ClienteNaoEncontrado;
 import edu.yan.desafiodiospringboot.aluguellivros.model.Cliente;
 import edu.yan.desafiodiospringboot.aluguellivros.model.Livro;
 import edu.yan.desafiodiospringboot.aluguellivros.repository.ClienteRepository;
@@ -25,7 +27,16 @@ public class ClienteImplementationService implements IClienteService{
 	@Override
 	public void inserir(Cliente cliente) {
 		// TODO Auto-generated method stub
+		if(!clienteRepository.findByCpf(cliente.getCpf()).isEmpty()) {
+			throw new IllegalArgumentException("O cpf informado já está cadastrado");
+		}
 		clienteRepository.save(cliente);
+	}
+	
+	public void clienteExiste(long clienteId) {
+		if(!clienteRepository.findById(clienteId).isEmpty()) {
+			throw new ClienteNaoEncontrado();
+		}
 	}
 
 	/**
@@ -36,8 +47,9 @@ public class ClienteImplementationService implements IClienteService{
 	@Override
 	public void atualizar(Cliente cliente) {
 		// TODO Auto-generated method stub
+
 		Cliente clienteBd = clienteRepository.findById(cliente.getId()).orElseThrow(() -> 
-			new RuntimeException("Cliente não encontrado")
+			new ClienteNaoEncontrado()
 		);
 		clienteBd.setCpf(cliente.getCpf());
 		clienteBd.setNomeUsuario(cliente.getNomeUsuario());
@@ -53,8 +65,9 @@ public class ClienteImplementationService implements IClienteService{
 	 */
 	@Override
 	public void deletar(Long clienteId) {
-		//verificar se o usuário tem algum livro alugado
-		//se não tiver, pode alugar
+		clienteExiste(clienteId);
+		if(!(clienteRepository.buscarQuantidadeLivrosAlugados(clienteId) == 0))
+			throw new RuntimeException("Falha ao deletar usuário: o usuário deve concluir o empréstimo pendente.");
 		if(clienteRepository.buscarQuantidadeLivrosAlugados(clienteId) == 0) {
 			Optional<Cliente> cliente = clienteRepository.findById(clienteId);
 			clienteRepository.delete(cliente.get());

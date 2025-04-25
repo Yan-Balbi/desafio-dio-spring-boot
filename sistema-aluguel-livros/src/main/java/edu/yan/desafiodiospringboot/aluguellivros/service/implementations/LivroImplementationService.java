@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.yan.desafiodiospringboot.aluguellivros.handler.LivroNaoEncontrado;
 import edu.yan.desafiodiospringboot.aluguellivros.model.Exemplar;
 import edu.yan.desafiodiospringboot.aluguellivros.model.Livro;
 import edu.yan.desafiodiospringboot.aluguellivros.repository.ExemplarRepository;
@@ -24,16 +25,25 @@ public class LivroImplementationService implements ILivroService{
 	
 	@Override
 	public void inserirLivroComExemplares(Livro livro, int quantidadeExemplares) {
+		if(!livroRepository.findByIsbn(livro.getIsbn()).isEmpty()) {
+			throw new IllegalArgumentException("O isbn já está cadastrado");
+		}
 		for(int i = 0; i < quantidadeExemplares; i++ ) {
 			livro.adicionarExemplar(new Exemplar());
 		}
 		livroRepository.save(livro);
 	}
+	
+	public void LivroExiste(long clienteId) {
+		if(!livroRepository.findById(clienteId).isEmpty()) {
+			throw new LivroNaoEncontrado();
+		}
+	}
 
 	@Override
 	public void atualizar(Livro livro) {
 		Livro livroBd = livroRepository.findById(livro.getId()).orElseThrow(() -> 
-			new RuntimeException("livro não encontrado")
+			new LivroNaoEncontrado()
 		);
 		
 		livroBd.setCategoria(livro.getCategoria());
@@ -49,6 +59,9 @@ public class LivroImplementationService implements ILivroService{
 	public void deletarLivroComExemplares(String isbn) throws RuntimeException {
 		
 		Long livroId = livroRepository.findByIsbn(isbn).get().getId();
+		
+		LivroExiste(livroId);
+		
 		List<Exemplar> exemplares = (List<Exemplar>) buscarExemplaresDeUmLivro(livroId);
 		
 		boolean permissaoApagarLivro = exemplares.stream().allMatch(ex -> ex.isDisponivel());

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.yan.desafiodiospringboot.aluguellivros.handler.ClienteJaPossuiEmprestimoException;
+import edu.yan.desafiodiospringboot.aluguellivros.handler.ClienteNaoEncontrado;
+import edu.yan.desafiodiospringboot.aluguellivros.handler.LivroNaoEncontrado;
 import edu.yan.desafiodiospringboot.aluguellivros.handler.NenhumExemplarDisponivelException;
 import edu.yan.desafiodiospringboot.aluguellivros.model.Cliente;
 import edu.yan.desafiodiospringboot.aluguellivros.model.Emprestimo;
@@ -41,6 +43,14 @@ public class EmprestimoImplementationService implements IEmprestimoService{
 	 */
 	@Override
 	public Optional<Emprestimo> registrarEmprestimo(Long clienteId, Long livroId) {
+		if(clienteRepository.findById(clienteId).isEmpty()) {
+			throw new ClienteNaoEncontrado();
+		}
+		
+		if(livroRepository.findById(livroId).isEmpty()) {
+			throw new LivroNaoEncontrado();
+		}
+		
 		if(!emprestimoRepository.clienteJaPossuiEmprestimoEmAndamento(clienteId)) {
 			Optional<Cliente> cliente = clienteRepository.findById(clienteId);
 			
@@ -49,7 +59,7 @@ public class EmprestimoImplementationService implements IEmprestimoService{
 			Optional<Exemplar> exemplar = exemplares.stream().filter(ex -> ex.isDisponivel()).findFirst();
 			
 			if(exemplar.isEmpty()) {
-				throw new NenhumExemplarDisponivelException("Falha ao realizar empréstimo: Não há exemplares disponíveis para este livro no momento.");
+				throw new NenhumExemplarDisponivelException();
 			}
 			exemplar.get().setDisponivel(false);
 			Emprestimo emprestimo = new Emprestimo(cliente.get(), exemplar.get(), LocalDate.now());
@@ -57,7 +67,7 @@ public class EmprestimoImplementationService implements IEmprestimoService{
 			return Optional.of(emprestimo);
 
 		} else {
-			throw new ClienteJaPossuiEmprestimoException("Falha ao realizar empréstimo: O usuário á possui um livro alugado no momento.");
+			throw new ClienteJaPossuiEmprestimoException();
 		}
 		
 	}

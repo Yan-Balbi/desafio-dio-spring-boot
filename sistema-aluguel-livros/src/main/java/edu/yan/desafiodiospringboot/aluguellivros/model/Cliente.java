@@ -14,6 +14,7 @@ public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	@Column(unique = true)
 	private String cpf;
 	@Column(length = 100, nullable = false, name = "nome_usuario")
 	private String nomeUsuario;

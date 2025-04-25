@@ -16,7 +16,7 @@ public class Livro {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@Column(length = 13, nullable = false)
+	@Column(unique = true, length = 13, nullable = false)
 	private String isbn;
 	@Column(length = 100, nullable = false)
 	private String titulo;
@@ -89,10 +89,6 @@ public class Livro {
         exemplar.setLivro(this);
         exemplares.add(exemplar);
     }
-	
-	public void setExemplares(List<Exemplar> exemplares) {
-		this.exemplares = exemplares;
-	}
 
 	public void setScore(Double score) {
 		this.score = score;
