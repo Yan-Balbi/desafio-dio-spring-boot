@@ -32,7 +32,7 @@ classDiagram
         +Double score
     }
 
-    Cliente "1" -- "0..*" Emprestimo : realiza >
-    Exemplar "1" -- "0..*" Emprestimo : é parte de >
-    Livro "1" -- "0..*" Exemplar : possui >
+    Cliente "1" o-- "0..*" Emprestimo : realiza >
+    Exemplar "1" o-- "0..*" Emprestimo : é parte de >
+    Livro "1" *-- "0..*" Exemplar : possui >
 ```
