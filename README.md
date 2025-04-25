@@ -1,4 +1,4 @@
-# API Aluguei de livros
+# API Emprestimo de livros
 Desafio de implementação de backend usando as ferramentas do springboot.
 
 #Diagramas
