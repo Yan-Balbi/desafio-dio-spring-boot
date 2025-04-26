@@ -16,7 +16,7 @@ public interface IClienteService {
 	-Atualizar exemplar por IsbnLivro: void
 	*/
 	
-	void inserir(Cliente cliente);
+	Cliente inserir(Cliente cliente);
 	
 	void atualizar(Cliente cliente);
 

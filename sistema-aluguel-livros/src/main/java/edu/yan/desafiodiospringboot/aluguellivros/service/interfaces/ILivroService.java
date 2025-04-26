@@ -17,7 +17,7 @@ public interface ILivroService {
 	-Obter todos os livros: List<Livro>
 	 */
 	
-	void inserirLivroComExemplares(Livro livro, int quantidadeExemplares);
+	Livro inserirLivroComExemplares(Livro livro, int quantidadeExemplares);
 	
 	void atualizar(Livro livro);
 	

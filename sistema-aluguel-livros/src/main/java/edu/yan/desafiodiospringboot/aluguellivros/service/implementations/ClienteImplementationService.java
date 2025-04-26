@@ -25,12 +25,13 @@ public class ClienteImplementationService implements IClienteService{
 	 * @return void
 	 */
 	@Override
-	public void inserir(Cliente cliente) {
+	public Cliente inserir(Cliente cliente) {
 		// TODO Auto-generated method stub
 		if(!clienteRepository.findByCpf(cliente.getCpf()).isEmpty()) {
 			throw new IllegalArgumentException("O cpf informado já está cadastrado");
 		}
-		clienteRepository.save(cliente);
+		Cliente clienteInserido = clienteRepository.save(cliente);
+		return clienteInserido;
 	}
 	
 	public void clienteExiste(long clienteId) {

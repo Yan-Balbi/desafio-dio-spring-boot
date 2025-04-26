@@ -1,5 +1,6 @@
 package edu.yan.desafiodiospringboot.aluguellivros.controller;
 
+import java.net.URI;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import edu.yan.desafiodiospringboot.aluguellivros.dto.LivroScoreDTO;
 import edu.yan.desafiodiospringboot.aluguellivros.model.Livro;
@@ -26,8 +28,11 @@ public class LivroController {
 	
 	@PostMapping
 	public ResponseEntity<Livro> inserir(@RequestBody LivroScoreDTO request) {
-		livroService.inserirLivroComExemplares(request.getLivro(), request.getQuantidadeExemplares());
-		return ResponseEntity.ok(request.getLivro());
+		Livro livroCriado = livroService.inserirLivroComExemplares(request.getLivro(), request.getQuantidadeExemplares());
+		
+		URI localLivroCriado = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(livroCriado.getId()).toUri();
+		
+		return ResponseEntity.created(localLivroCriado).body(livroCriado);
 	}
 	
 	@PutMapping
@@ -39,7 +44,7 @@ public class LivroController {
 	@DeleteMapping("/delete/{isbn}")
 	public ResponseEntity<Livro> deletarLivroComExemplares(@PathVariable String isbn) {
 		livroService.deletarLivroComExemplares(isbn);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.noContent().build();
 	}
 	
 	@GetMapping

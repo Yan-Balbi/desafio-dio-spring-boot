@@ -1,5 +1,6 @@
 package edu.yan.desafiodiospringboot.aluguellivros.controller;
 
+import java.net.URI;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import edu.yan.desafiodiospringboot.aluguellivros.model.Cliente;
 import edu.yan.desafiodiospringboot.aluguellivros.service.implementations.ClienteImplementationService;
@@ -25,8 +27,10 @@ public class ClienteController {
 	
 	@PostMapping
 	public ResponseEntity<Cliente> inserir(@RequestBody Cliente clienteRequest) {
-		clienteImplementationService.inserir(clienteRequest);
-		return ResponseEntity.ok(clienteRequest);
+		Cliente clienteCriado =  clienteImplementationService.inserir(clienteRequest);
+		URI local = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(clienteCriado.getId()).toUri();
+				
+		return ResponseEntity.created(local).body(clienteCriado);
 	}
 	
 	@PutMapping
@@ -38,7 +42,7 @@ public class ClienteController {
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Cliente> deletar(@PathVariable Long id){
 		clienteImplementationService.deletar(id);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.noContent().build();
 	}
 	
 	@GetMapping

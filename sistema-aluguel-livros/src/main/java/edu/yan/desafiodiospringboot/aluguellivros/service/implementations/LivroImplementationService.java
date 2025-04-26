@@ -24,14 +24,16 @@ public class LivroImplementationService implements ILivroService{
 	LivroRepository livroRepository;
 	
 	@Override
-	public void inserirLivroComExemplares(Livro livro, int quantidadeExemplares) {
+	public Livro inserirLivroComExemplares(Livro livro, int quantidadeExemplares) {
 		if(!livroRepository.findByIsbn(livro.getIsbn()).isEmpty()) {
 			throw new IllegalArgumentException("O isbn já está cadastrado");
 		}
 		for(int i = 0; i < quantidadeExemplares; i++ ) {
 			livro.adicionarExemplar(new Exemplar());
 		}
-		livroRepository.save(livro);
+		Livro livroInserido = livroRepository.save(livro);
+		
+		return livroInserido;
 	}
 	
 	public void LivroExiste(long clienteId) {

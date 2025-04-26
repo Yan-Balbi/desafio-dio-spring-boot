@@ -15,7 +15,7 @@ public interface IEmprestimoService {
 	-Obter emprestimos atrasados: List<Emprestimos>
 	*/
 	
-	Optional<Emprestimo> registrarEmprestimo(Long clienteId, Long exemplarId);
+	Emprestimo registrarEmprestimo(Long clienteId, Long exemplarId);
 	
 	void concluirEmprestimo(Long idEmprestimo);
 	

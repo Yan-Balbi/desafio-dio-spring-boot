@@ -42,7 +42,7 @@ public class EmprestimoImplementationService implements IEmprestimoService{
 	 * @return Optional<Emprestimo>
 	 */
 	@Override
-	public Optional<Emprestimo> registrarEmprestimo(Long clienteId, Long livroId) {
+	public Emprestimo registrarEmprestimo(Long clienteId, Long livroId) {
 		if(clienteRepository.findById(clienteId).isEmpty()) {
 			throw new ClienteNaoEncontrado();
 		}
@@ -64,7 +64,7 @@ public class EmprestimoImplementationService implements IEmprestimoService{
 			exemplar.get().setDisponivel(false);
 			Emprestimo emprestimo = new Emprestimo(cliente.get(), exemplar.get(), LocalDate.now());
 			emprestimoRepository.save(emprestimo);
-			return Optional.of(emprestimo);
+			return emprestimo;
 
 		} else {
 			throw new ClienteJaPossuiEmprestimoException();

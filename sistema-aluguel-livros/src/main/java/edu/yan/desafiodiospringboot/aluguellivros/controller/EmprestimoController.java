@@ -1,5 +1,6 @@
 package edu.yan.desafiodiospringboot.aluguellivros.controller;
 
+import java.net.URI;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import edu.yan.desafiodiospringboot.aluguellivros.model.Emprestimo;
 import edu.yan.desafiodiospringboot.aluguellivros.model.Livro;
@@ -25,9 +27,12 @@ public class EmprestimoController {
 	private EmprestimoImplementationService emprestimoImplementationService;
 	
 	@PostMapping
-	public ResponseEntity<Optional<Emprestimo>> inserirEmprestimo(@RequestParam Long clienteId, @RequestParam Long livroId) {
-	    Optional<Emprestimo> emprestimo = emprestimoImplementationService.registrarEmprestimo(clienteId, livroId);
-	    return ResponseEntity.ok(emprestimo);
+	public ResponseEntity<Emprestimo> inserirEmprestimo(@RequestParam Long clienteId, @RequestParam Long livroId) {
+	    Emprestimo emprestimoCriado = emprestimoImplementationService.registrarEmprestimo(clienteId, livroId);
+	    
+	    URI localEmprestimoCriado = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(emprestimoCriado).toUri();
+	    
+	    return ResponseEntity.created(localEmprestimoCriado).body(emprestimoCriado);
 	}
 	
 	@PutMapping
